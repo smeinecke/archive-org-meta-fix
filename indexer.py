@@ -8,8 +8,6 @@ from processor.arte import ArteMetaFetcher
 ARCHIVE_LOGIN = os.environ.get('ARCHIVE_LOGIN')
 
 amf = ArteMetaFetcher()
-# amf.fix_meta('113024-005-A')
-# exit()
 
 for i in search_items(f"uploader:{ARCHIVE_LOGIN} ArteTV-"):
     _id = i['identifier'].replace('ArteTV-', '')
