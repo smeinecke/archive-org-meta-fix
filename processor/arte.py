@@ -7,7 +7,8 @@ from io import StringIO
 import requests
 from internetarchive import upload, get_item, modify_metadata
 
-from .base import baseFetcher, NEXT_DATA_RE
+from .base import baseFetcher
+NEXT_DATA_RE = re.compile('<script id="__NEXT_DATA__" type="application/json">(.+?)</script>', re.I | re.M | re.S)
 
 
 class ArteMetaFetcher(baseFetcher):
