@@ -2,13 +2,23 @@ import os
 from pathlib import Path
 from internetarchive import search_items
 import json
+import logging
 
-from processor import ArteMetaFetcher, MediathekMetaFetcher
+logging.basicConfig(level=logging.INFO)
+from processor import ArteMetaFetcher, MediathekMetaFetcher, ArdProgrammMetaFetcher
 
 ARCHIVE_LOGIN = os.environ.get('ARCHIVE_LOGIN')
 
-mmf = MediathekMetaFetcher()
+apm = ArdProgrammMetaFetcher()
+for i in search_items(f"uploader:{ARCHIVE_LOGIN} ARDMediathek-"):
+    _id = i['identifier']
+    if os.path.exists(f'cache/done/{_id}.programm'):
+        continue
+    print(i['identifier'])
+    if (apm.upload(i['identifier'], force=True)):
+        Path(f"cache/done/{_id}.programm").touch()
 
+mmf = MediathekMetaFetcher()
 for i in search_items(f"uploader:{ARCHIVE_LOGIN}"):
     _id = i['identifier']
     if 'ArteTV-' in _id or 'youtube-' in _id:
